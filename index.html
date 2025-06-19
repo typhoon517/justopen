@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Happy Birthday!</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #ffecd2 0%, #fcb69f 100%);
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .card {
+      background: white;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      max-width: 400px;
+      position: relative;
+    }
+
+    .card h1 {
+      font-size: 2.5rem;
+      color: #ff6b6b;
+      margin-bottom: 1rem;
+    }
+
+    .card p {
+      font-size: 1.2rem;
+      color: #333;
+    }
+
+    .confetti {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: -1;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <canvas class="confetti"></canvas>
+    <h1>Happy Birthday 🎉</h1>
+    <p>Wishing you a day filled with love, laughter,<br> and all your favorite things.</p>
+  </div>
+
+  <script>
+    // Simple confetti animation
+    const canvas = document.querySelector('.confetti');
+    const ctx = canvas.getContext('2d');
+    let pieces = [], number = 100;
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+
+    for (let i = 0; i < number; i++) {
+      pieces.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height - canvas.height,
+        speed: Math.random() * 3 + 2,
+        radius: Math.random() * 6 + 2,
+        color: `hsl(${Math.random() * 360}, 70%, 60%)`
+      });
+    }
+
+    function update() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let p of pieces) {
+        p.y += p.speed;
+        if (p.y > canvas.height) p.y = -10;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+      }
+      requestAnimationFrame(update);
+    }
+
+    update();
+  </script>
+</body>
+
+</html>
